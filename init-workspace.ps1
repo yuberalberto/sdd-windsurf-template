@@ -5,15 +5,26 @@ param(
     [string]$TemplatePath = "$PSScriptRoot\sdd-windsurf-template"
 )
 
-# If template doesn't exist locally, clone from GitHub
-if (-not (Test-Path $TemplatePath)) {
-    Write-Host "Template not found locally. Cloning from GitHub..." -ForegroundColor Cyan
-    git clone https://github.com/yuberalberto/sdd-windsurf-template.git $TemplatePath
-    if ($LASTEXITCODE -ne 0) {
-        Write-Error "Failed to clone template from GitHub"
-        exit 1
-    }
+# If template doesn't exist locally, clone only necessary folders from GitHub
+$tempDir = ".sdd-windsurf-temp"
+if (Test-Path $tempDir) {
+    Remove-Item -Recurse -Force $tempDir
 }
+
+Write-Host "Cloning only .windsurf and specs folders from GitHub..." -ForegroundColor Cyan
+git clone --no-checkout --filter=blob:none https://github.com/yuberalberto/sdd-windsurf-template.git $tempDir
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to clone template from GitHub"
+    exit 1
+}
+
+cd $tempDir
+git sparse-checkout init --cone
+git sparse-checkout set .windsurf specs
+git checkout main
+cd ..
+
+$TemplatePath = $tempDir
 
 $ErrorActionPreference = "Stop"
 
@@ -56,13 +67,11 @@ Write-Host "Workspace initialization complete!" -ForegroundColor Green
 Write-Host "Your project is now configured with SDD+TDD methodology." -ForegroundColor Green
 Write-Host ""
 
-# Ask if user wants to remove the template directory
-$removeTemplate = Read-Host "Do you want to remove the sdd-windsurf-template directory? (Y/N)"
-if ($removeTemplate -eq "Y" -or $removeTemplate -eq "y") {
-    Write-Host "Removing template directory..." -ForegroundColor Cyan
-    Remove-Item -Recurse -Force $TemplatePath
-    Write-Host "Template directory removed." -ForegroundColor Green
-}
+# Remove temporary template directory
+Write-Host "Removing temporary template directory..." -ForegroundColor Cyan
+cd ..
+Remove-Item -Recurse -Force $tempDir
+Write-Host "Temporary directory removed." -ForegroundColor Green
 
 Write-Host "Next steps:" -ForegroundColor Yellow
 Write-Host "1. Review the rules in .windsurf/rules/" -ForegroundColor Yellow
