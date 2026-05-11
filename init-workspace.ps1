@@ -55,6 +55,15 @@ Copy-Item "$TemplatePath/specs/_templates/*" -Destination $specsDir -Force
 Write-Host "Workspace initialization complete!" -ForegroundColor Green
 Write-Host "Your project is now configured with SDD+TDD methodology." -ForegroundColor Green
 Write-Host ""
+
+# Ask if user wants to remove the template directory
+$removeTemplate = Read-Host "Do you want to remove the sdd-windsurf-template directory? (Y/N)"
+if ($removeTemplate -eq "Y" -or $removeTemplate -eq "y") {
+    Write-Host "Removing template directory..." -ForegroundColor Cyan
+    Remove-Item -Recurse -Force $TemplatePath
+    Write-Host "Template directory removed." -ForegroundColor Green
+}
+
 Write-Host "Next steps:" -ForegroundColor Yellow
 Write-Host "1. Review the rules in .windsurf/rules/" -ForegroundColor Yellow
-Write-Host "2. Start with specs/specs/_templates/requirements.md for your first feature" -ForegroundColor Yellow
+Write-Host "2. Start with specs/_templates/requirements.md for your first feature" -ForegroundColor Yellow
