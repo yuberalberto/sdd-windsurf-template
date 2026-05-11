@@ -16,7 +16,7 @@ Template repository for projects using Spec-Driven Development (SDD) and Test-Dr
 Click "Use this template" in GitHub to create a new repository, or:
 
 ```bash
-git clone https://github.com/[user]/sdd-windsurf-template.git my-project
+git clone https://github.com/yuberalberto/sdd-windsurf-template.git my-project
 cd my-project
 ```
 
@@ -25,7 +25,10 @@ cd my-project
 Run the initialization script from your project root:
 
 ```powershell
-./init-workspace.ps1
+# Clone the template repo first
+git clone https://github.com/yuberalberto/sdd-windsurf-template.git
+# Then run the init script
+./sdd-windsurf-template/init-workspace.ps1
 ```
 
 This will copy the Windsurf configuration files to your project.
