@@ -69,7 +69,6 @@ Write-Host ""
 
 # Remove temporary template directory
 Write-Host "Removing temporary template directory..." -ForegroundColor Cyan
-cd ..
 Remove-Item -Recurse -Force $tempDir
 Write-Host "Temporary directory removed." -ForegroundColor Green
 
