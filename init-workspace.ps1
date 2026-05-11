@@ -7,6 +7,7 @@ param(
 
 # If template doesn't exist locally, clone only necessary folders from GitHub
 $tempDir = ".sdd-windsurf-temp"
+$originalDir = Get-Location
 if (Test-Path $tempDir) {
     Remove-Item -Recurse -Force $tempDir
 }
@@ -18,11 +19,11 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
-cd $tempDir
+Set-Location $tempDir
 git sparse-checkout init --cone
 git sparse-checkout set .windsurf specs
 git checkout main
-cd ..
+Set-Location $originalDir
 
 $TemplatePath = $tempDir
 
