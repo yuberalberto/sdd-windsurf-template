@@ -22,16 +22,14 @@ cd my-project
 
 ### Existing Project
 
-Run the initialization script from your project root:
+Clone the template and copy the configuration folders:
 
-```powershell
-# Clone the template repo first
+```bash
 git clone https://github.com/yuberalberto/sdd-windsurf-template.git
-# Then run the init script
-./sdd-windsurf-template/init-workspace.ps1
+# Copy .windsurf folder to your project
+# Copy specs folder to your project
+# Delete the cloned template
 ```
-
-This will copy the Windsurf configuration files to your project.
 
 ## Structure
 
